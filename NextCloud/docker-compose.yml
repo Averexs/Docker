@@ -1,0 +1,32 @@
+version: "2"
+services:
+  nextcloud:
+    container_name: nextcloud
+    image: nextcloud
+    environment:
+      - TZ=America/New_York
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_DATABASE=ncdb
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
+    volumes:
+      - /var/docker/nextcloud:/var/www/html
+
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    
+    depends_on:
+      - db
+
+  db:
+    container_name: maria-db
+    restart: unless-stopped
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
+      MYSQL_DATABASE: ncdb
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: nextcloud
+    volumes:
+      - /var/docker/nextcloud/mariadb:/var/lib/mysql
