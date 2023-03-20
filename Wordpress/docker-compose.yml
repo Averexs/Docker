@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+   db:
+     image: mysql/mysql-server:8.0
+     volumes:
+       - /var/docker/wordpress/db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+
+   wordpress:
+     image: wordpress:latest
+     ports:
+      - '8019:80'
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: wordpress
+     volumes: 
+       - /var/docker/wordpress/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+       - /var/docker/wordpress/wordpress:/var/www/html
+
+volumes:
+    db_data:
