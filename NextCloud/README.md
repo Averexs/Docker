@@ -1,3 +1,7 @@
+Create environment variable called MYSQL_DATABASE_PASSWORD
+
+Set password to be a long complex password
+
 POST INSTALL: change default files for new users
 
     SSH into server and navigate into the /var/docker/nextcloud/config
